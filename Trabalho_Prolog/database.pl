@@ -1,4 +1,5 @@
 % FATOS
+
 % filme(ID, Titulo, GeneroRef, Diretor, AnoRef)
 filme(1, 'Matrix', 'Ficcao', 'Wachowski', 1999).
 filme(2, 'O Senhor dos Aneis', ['Fantasia', 'Aventura'], 'Peter Jackson', 2001).
@@ -23,15 +24,15 @@ usuario(6, 'Felipe', 38).
 avaliacao(1, 1, 5).
 avaliacao(1, 3, 4).
 avaliacao(1, 6, 5).
-avaliacao(1, 8, 4).
+avaliacao(1, 8, 3).
 avaliacao(2, 1, 5).
 avaliacao(2, 6, 4).
 avaliacao(2, 8, 5).
 avaliacao(2, 10, 3).
-avaliacao(3, 2, 5).
+avaliacao(3, 2, 2).
 avaliacao(3, 4, 4).
-avaliacao(3, 5, 4).
-avaliacao(3, 7, 3).
+avaliacao(3, 5, 0).
+avaliacao(3, 7, 1).
 avaliacao(4, 1, 3).
 avaliacao(4, 2, 5).
 avaliacao(4, 10, 5).
@@ -40,48 +41,3 @@ avaliacao(5, 6, 5).
 avaliacao(5, 8, 5).
 avaliacao(5, 9, 1).
 avaliacao(6, 4, 5).
-
-
-% REGRAS:
-
-% Listar títulos de um gênero:
-filmes_por_genero(GeneroRef, Lista) :-
-	findall(Titulo,
-		(filme(_, Titulo, GeneroFilme, _, _),
-			filme_tem_genero(GeneroFilme, GeneroRef)),
-		Lista).
-
-% Listar títulos lançados estritamente após um ano:
-filmes_de_ano_superior(AnoRef, Lista) :-
-	findall(Titulo,
-		(filme(_, Titulo, _, _, AnoFilme),
-			ano_superior(AnoRef, AnoFilme)),
-		Lista).
-
-% Listar apenas as notas (números) dadas por um usuário
-notas_do_usuario(UsuarioID, Notas) :-
-	findall(Nota,
-		(avaliacao(UsuarioID, _, Nota)),
-		Notas).    
-        
-% Calcular a média aritmética das notas de um usuário:
-media_avaliacoes(UsuarioID, Media) :-
-    
-	sum_list(List, Sum).
-
-% REGRAS AUXILIARES:
-
-% Quando o filme tem um genero unico:
-filme_tem_genero(GeneroFilme, GeneroRef) :-
-	% verifica o atomo
-atom(GeneroFilme),
-	GeneroFilme = GeneroRef.
-% Quando o filme tem vários gêneros:
-filme_tem_genero(GeneroFilme, GeneroRef) :-
-	% verifica a lista
-is_list(GeneroFilme),
-	member(GeneroRef, GeneroFilme).
-
-    
-ano_superior(AnoRef, AnoFilme) :-
-	AnoFilme > AnoRef.
